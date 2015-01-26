@@ -22,7 +22,7 @@
  * 
  * @see strange.extensions.mediation.api.IMediationBinder
  */
-
+#if !STRANGEIOC_STANDALONE
 using System;
 using UnityEngine;
 
@@ -47,3 +47,4 @@ namespace strange.extensions.mediation.api
 	}
 }
 
+#endif // !STRANGEIOC_STANDALONE

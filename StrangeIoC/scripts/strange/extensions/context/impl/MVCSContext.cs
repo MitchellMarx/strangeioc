@@ -154,7 +154,7 @@
  * 
  * 
  */
-
+#if !STRANGEIOC_STANDALONE
 using strange.extensions.implicitBind.api;
 using strange.extensions.implicitBind.impl;
 using UnityEngine;
@@ -359,3 +359,4 @@ namespace strange.extensions.context.impl
 	}
 }
 
+#endif // !STRANGEIOC_STANDALONE

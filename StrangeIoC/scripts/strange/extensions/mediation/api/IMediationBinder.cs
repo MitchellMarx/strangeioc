@@ -61,7 +61,7 @@
  * 'thin' class approach, i.e., nothing goes in the Mediator but what it needs
  * to mediate.
  */
-
+#if !STRANGEIOC_STANDALONE
 using System;
 using strange.framework.api;
 using UnityEngine;
@@ -82,3 +82,4 @@ namespace strange.extensions.mediation.api
 	}
 }
 
+#endif // !STRANGEIOC_STANDALONE

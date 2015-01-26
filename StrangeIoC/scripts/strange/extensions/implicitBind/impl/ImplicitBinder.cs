@@ -13,7 +13,7 @@
  *		See the License for the specific language governing permissions and
  *		limitations under the License.
  */
-
+#if !STRANGEIOC_STANDALONE
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -225,3 +225,4 @@ namespace strange.extensions.implicitBind.impl
 		}
 	}
 }
+#endif // !STRANGEIOC_STANDALONE

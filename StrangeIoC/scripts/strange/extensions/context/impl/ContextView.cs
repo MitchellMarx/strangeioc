@@ -32,7 +32,7 @@
 		}
 
  */
-
+#if !STRANGEIOC_STANDALONE
 using System;
 using UnityEngine;
 using strange.extensions.context.api;
@@ -68,3 +68,4 @@ namespace strange.extensions.context.impl
 	}
 }
 
+#endif // !STRANGEIOC_STANDALONE

@@ -22,7 +22,7 @@
  * Please read strange.extensions.mediation.api.IMediationBinder
  * where I've extensively explained the purpose of View mediation
  */
-
+#if !STRANGEIOC_STANDALONE
 using System;
 using System.Collections;
 using UnityEngine;
@@ -175,3 +175,4 @@ namespace strange.extensions.mediation.impl
 	}
 }
 
+#endif // !STRANGEIOC_STANDALONE

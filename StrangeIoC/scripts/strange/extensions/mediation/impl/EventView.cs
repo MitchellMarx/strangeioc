@@ -24,7 +24,7 @@
  * Caution: we recommend against injecting the context-wide
  * dispatcher into a View.
  */
-
+#if !STRANGEIOC_STANDALONE
 using System;
 using strange.extensions.dispatcher.eventdispatcher.api;
 
@@ -38,3 +38,4 @@ namespace strange.extensions.mediation.impl
 	}
 }
 
+#endif // !STRANGEIOC_STANDALONE

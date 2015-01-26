@@ -22,7 +22,7 @@
  * ContextView, which allows the Context to know when these
  * critical moments occur in the View lifecycle.
  */
-
+#if !STRANGEIOC_STANDALONE
 using UnityEngine;
 using strange.extensions.context.api;
 using strange.extensions.context.impl;
@@ -143,3 +143,4 @@ namespace strange.extensions.mediation.impl
 	}
 }
 
+#endif

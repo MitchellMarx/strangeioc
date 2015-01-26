@@ -20,7 +20,7 @@
  * A Mediator which injects an IEventDispatcher. This is the
  * class for your Mediators to extend if you're using MVCSContext.
  */
-
+#if !STRANGEIOC_STANDALONE
 using System;
 using strange.extensions.context.api;
 using strange.extensions.dispatcher.eventdispatcher.api;
@@ -35,3 +35,4 @@ namespace strange.extensions.mediation.impl
 	}
 }
 
+#endif // !STRANGEIOC_STANDALONE
