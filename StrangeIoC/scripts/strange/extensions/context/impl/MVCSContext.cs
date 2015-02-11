@@ -154,10 +154,12 @@
  * 
  * 
  */
+
 #if !STRANGEIOC_STANDALONE
+using UnityEngine;
+#endif
 using strange.extensions.implicitBind.api;
 using strange.extensions.implicitBind.impl;
-using UnityEngine;
 using strange.extensions.command.api;
 using strange.extensions.command.impl;
 using strange.extensions.context.api;
@@ -182,8 +184,10 @@ namespace strange.extensions.context.impl
 		/// A Binder that serves as the Event bus for the Context
 		public IEventDispatcher dispatcher{get;set;}
 
+#if !STRANGEIOC_STANDALONE
 		/// A Binder that maps Views to Mediators
 		public IMediationBinder mediationBinder{get;set;}
+#endif
 
 		//Interprets implicit bindings
 		public IImplicitBinder implicitBinder { get; set; }
@@ -197,7 +201,7 @@ namespace strange.extensions.context.impl
 		
 		public MVCSContext() : base()
 		{}
-
+#if !STRANGEIOC_STANDALONE
 		/// The recommended Constructor
 		/// Just pass in the instance of your ContextView. Everything will begin automatically.
 		/// Other constructors offer the option of interrupting startup at useful moments.
@@ -222,6 +226,7 @@ namespace strange.extensions.context.impl
 			}
 			return this;
 		}
+#endif
 
 		/// Map the relationships between the Binders.
 		/// Although you can override this method, it is recommended
@@ -236,7 +241,9 @@ namespace strange.extensions.context.impl
 			injectionBinder.Bind<IEventDispatcher>().To<EventDispatcher>();
 			//This binding is for the common system bus
 			injectionBinder.Bind<IEventDispatcher>().To<EventDispatcher>().ToSingleton().ToName(ContextKeys.CONTEXT_DISPATCHER);
+#if !STRANGEIOC_STANDALONE
 			injectionBinder.Bind<IMediationBinder>().To<MediationBinder>().ToSingleton();
+#endif
 			injectionBinder.Bind<ISequencer>().To<EventSequencer>().ToSingleton();
 			injectionBinder.Bind<IImplicitBinder>().To<ImplicitBinder>().ToSingleton();
 		}
@@ -248,11 +255,15 @@ namespace strange.extensions.context.impl
 			{
 				throw new ContextException("MVCSContext requires a ContextView of type MonoBehaviour", ContextExceptionType.NO_CONTEXT_VIEW);
 			}
+#if !STRANGEIOC_STANDALONE
 			injectionBinder.Bind<GameObject>().ToValue(contextView).ToName(ContextKeys.CONTEXT_VIEW);
+#endif
 			commandBinder = injectionBinder.GetInstance<ICommandBinder>() as ICommandBinder;
 			
 			dispatcher = injectionBinder.GetInstance<IEventDispatcher>(ContextKeys.CONTEXT_DISPATCHER) as IEventDispatcher;
+#if !STRANGEIOC_STANDALONE
 			mediationBinder = injectionBinder.GetInstance<IMediationBinder>() as IMediationBinder;
+#endif
 			sequencer = injectionBinder.GetInstance<ISequencer>() as ISequencer;
 			implicitBinder = injectionBinder.GetInstance<IImplicitBinder>() as IImplicitBinder;
 
@@ -260,6 +271,7 @@ namespace strange.extensions.context.impl
 			(dispatcher as ITriggerProvider).AddTriggerable(sequencer as ITriggerable);
 		}
 		
+#if !STRANGEIOC_STANDALONE
 		protected override void postBindings()
 		{
 			//It's possible for views to fire their Awake before bindings. This catches any early risers and attaches their Mediators.
@@ -267,6 +279,7 @@ namespace strange.extensions.context.impl
 			//Ensure that all Views underneath the ContextView are triggered
 			mediationBinder.Trigger(MediationEvent.AWAKE, (contextView as GameObject).GetComponent<ContextView>());
 		}
+#endif
 
 		/// Fires ContextEvent.START
 		/// Whatever Command/Sequence you want to happen first should 
@@ -299,6 +312,7 @@ namespace strange.extensions.context.impl
 			return null;
 		}
 		
+#if !STRANGEIOC_STANDALONE
 		override public void AddView(object view)
 		{
 			if (mediationBinder != null)
@@ -349,6 +363,7 @@ namespace strange.extensions.context.impl
 			}
 			viewCache = new SemiBinding();
 		}
+#endif
 
 		/// Clean up. Called by a ContextView in its OnDestroy method
 		public override void OnRemove()
@@ -358,5 +373,3 @@ namespace strange.extensions.context.impl
 		}
 	}
 }
-
-#endif // !STRANGEIOC_STANDALONE

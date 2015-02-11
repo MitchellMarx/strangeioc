@@ -45,26 +45,12 @@ namespace strange.extensions.context.impl
 		
 		public Context ()
 		{
+			Initialize (this, ContextStartupFlags.AUTOMATIC);
 		}
 
 		public Context (object view, ContextStartupFlags flags)
 		{
-			//If firstContext was unloaded, the contextView will be null. Assign the new context as firstContext.
-			if (firstContext == null || firstContext.GetContextView() == null)
-			{
-				firstContext = this;
-			}
-			else
-			{
-				firstContext.AddContext(this);
-			}
-			SetContextView(view);
-			addCoreComponents();
-			this.autoStartup = (flags & ContextStartupFlags.MANUAL_LAUNCH) != ContextStartupFlags.MANUAL_LAUNCH;
-			if ((flags & ContextStartupFlags.MANUAL_MAPPING) != ContextStartupFlags.MANUAL_MAPPING)
-			{
-				Start();
-			}
+			Initialize (view, flags);
 		}
 
 		public Context (object view) : this (view, ContextStartupFlags.AUTOMATIC){}
@@ -167,6 +153,26 @@ namespace strange.extensions.context.impl
 		virtual public void RemoveView(object view)
 		{
 			//Override in subclasses
+		}
+		
+		private void Initialize(object view, ContextStartupFlags flags)
+		{
+			//If firstContext was unloaded, the contextView will be null. Assign the new context as firstContext.
+			if (firstContext == null || firstContext.GetContextView() == null)
+			{
+				firstContext = this;
+			}
+			else
+			{
+				firstContext.AddContext(this);
+			}
+			SetContextView(view);
+			addCoreComponents();
+			this.autoStartup = (flags & ContextStartupFlags.MANUAL_LAUNCH) != ContextStartupFlags.MANUAL_LAUNCH;
+			if ((flags & ContextStartupFlags.MANUAL_MAPPING) != ContextStartupFlags.MANUAL_MAPPING)
+			{
+				Start();
+			}
 		}
 	}
 }

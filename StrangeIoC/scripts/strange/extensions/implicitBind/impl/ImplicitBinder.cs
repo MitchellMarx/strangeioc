@@ -13,7 +13,7 @@
  *		See the License for the specific language governing permissions and
  *		limitations under the License.
  */
-#if !STRANGEIOC_STANDALONE
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,10 +31,10 @@ namespace strange.extensions.implicitBind.impl
 
 		[Inject]
 		public IInjectionBinder injectionBinder { get; set; }
-
+#if !STRANGEIOC_STANDALONE
 		[Inject]
 		public IMediationBinder mediationBinder { get; set; }
-
+#endif
 
 		//Hold a copy of the assembly so we aren't retrieving this multiple times. 
 		private Assembly assembly;
@@ -158,10 +158,11 @@ namespace strange.extensions.implicitBind.impl
 							throw new MediationException("Cannot implicitly bind Mediator of type: " + type.Name + " due to null ViewType",
 								MediationExceptionType.MEDIATOR_VIEW_STACK_OVERFLOW);
 					}
-
+					
+#if !STRANGEIOC_STANDALONE
 					if (mediationBinder != null && viewType != null && mediatorType != null) //Bind this mediator!
 						mediationBinder.Bind(viewType).To(mediatorType);
-
+#endif
 					#endregion
 				}
 
@@ -225,4 +226,3 @@ namespace strange.extensions.implicitBind.impl
 		}
 	}
 }
-#endif // !STRANGEIOC_STANDALONE
